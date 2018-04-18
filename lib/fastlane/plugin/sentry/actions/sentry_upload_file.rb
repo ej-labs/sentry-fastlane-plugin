@@ -22,6 +22,7 @@ module Fastlane
         ]
         command.push(params[:file_url]) unless params[:file_url].nil?
         command.push("--dist").push(params[:dist]) unless params[:dist].nil?
+        command.push('--url-prefix').push(params[:url_prefix]) unless params[:url_prefix].nil?
 
         Helper::SentryHelper.call_sentry_cli(command)
         UI.success("Successfully uploaded files to release: #{version}")
@@ -61,6 +62,9 @@ module Fastlane
                                       short_option: "-a",
                                       env_name: "SENTRY_APP_IDENTIFIER",
                                       description: "App Bundle Identifier, prepended to version",
+                                      optional: true),
+          FastlaneCore::ConfigItem.new(key: :url_prefix,
+                                      description: "Sets a URL prefix in front of all files",
                                       optional: true)
         ]
       end
